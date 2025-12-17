@@ -6,51 +6,59 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CategoriaService {
-  constructor(@InjectRepository(Categoria) private categoriaRepository: Repository<Categoria>) {}
+  constructor(
+    @InjectRepository(Categoria)
+    private categoriaRepository: Repository<Categoria>,
+  ) {}
 
-	async findByID(id: number): Promise <Categoria>{
-		const buscaCategoria = await this.categoriaRepository.findOne({
-			where: {
-				id,
-			},
-		});
-		if(!buscaCategoria) {
-			throw new HttpException(`Categoria de id ${id} não encontrada!`, HttpStatus.NOT_FOUND);
-		}
+  async findByID(id: number): Promise<Categoria> {
+    const buscaCategoria = await this.categoriaRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!buscaCategoria) {
+      throw new HttpException(
+        `Categoria de id ${id} não encontrada!`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
-		return buscaCategoria;
-	}
-	
-	async findAll(): Promise<Categoria[]> {
-		return await this.categoriaRepository.find();
-	}
+    return buscaCategoria;
+  }
 
-	async findAllByDescricao(descricao: string): Promise<Categoria[]> {
-		return await this.categoriaRepository.find({
-			where: {
-				descricao: ILike(`%${descricao}%`)
-			}
-		})
-	}
+  async findAll(): Promise<Categoria[]> {
+    return await this.categoriaRepository.find();
+  }
 
-	async create(categoria: Categoria): Promise<Categoria> {
-		return await this.categoriaRepository.save(categoria);
-	}
+  async findAllByDescricao(descricao: string): Promise<Categoria[]> {
+    return await this.categoriaRepository.find({
+      where: {
+        descricao: ILike(`%${descricao}%`),
+      },
+    });
+  }
 
-	async update(categoria: Categoria): Promise<Categoria> {
-		if(!categoria.id) {
-			throw new HttpException("ID da categoria é obrigatório para atualizar!", HttpStatus.BAD_REQUEST);
-		}
+  async create(categoria: Categoria): Promise<Categoria> {
+    return await this.categoriaRepository.save(categoria);
+  }
 
-		await this.findByID(categoria.id);
+  async update(categoria: Categoria): Promise<Categoria> {
+    if (!categoria.id) {
+      throw new HttpException(
+        'ID da categoria é obrigatório para atualizar!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
-		return await this.categoriaRepository.save(categoria);
-	}
+    await this.findByID(categoria.id);
 
-	async delete(id: number): Promise<DeleteResult> {
-		await this.findByID(id);
+    return await this.categoriaRepository.save(categoria);
+  }
 
-		return await this.categoriaRepository.delete(id);
-	}
+  async delete(id: number): Promise<DeleteResult> {
+    await this.findByID(id);
 
+    return await this.categoriaRepository.delete(id);
+  }
 }
