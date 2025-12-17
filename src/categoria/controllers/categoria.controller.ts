@@ -30,7 +30,7 @@ export class CategoriaController {
     return this.categoriaService.findAll();
   }
 
-  @Get('/name/:name')
+  @Get('/descricao/:descricao')
   @HttpCode(HttpStatus.OK)
   findAllByDescricao(
     @Param('descricao') descricao: string,
