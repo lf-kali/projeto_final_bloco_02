@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ILike, Repository } from 'typeorm';
 import { Categoria } from '../entities/categoria.entity';
-import { DeleteResult } from 'typeorm/browser';
+import { DeleteResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CategoriaService {
-  constructor(private categoriaRepository: Repository<Categoria>) {}
+  constructor(@InjectRepository(Categoria) private categoriaRepository: Repository<Categoria>) {}
 
 	async findByID(id: number): Promise <Categoria>{
 		const buscaCategoria = await this.categoriaRepository.findOne({
