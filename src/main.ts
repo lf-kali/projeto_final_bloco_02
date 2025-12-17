@@ -7,16 +7,20 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-  .setTitle('Farmácia - Performance Goals')
-  .setContact('Kali França', 'http://linkedin.com/in/kalifrancadev', 'cbjk.kali@gmail.com')
-  .setVersion('1.0')
-  .build();
+    .setTitle('Farmácia - Performance Goals')
+    .setContact(
+      'Kali França',
+      'http://linkedin.com/in/kalifrancadev',
+      'cbjk.kali@gmail.com',
+    )
+    .setVersion('1.0')
+    .build();
 
-  const document = SwaggerModule.createDocument(app, config); 
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/swagger', app, document);
 
   process.env.TZ = '-03:00';
-  
+
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
   await app.listen(process.env.PORT ?? 4000);

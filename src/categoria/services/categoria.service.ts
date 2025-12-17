@@ -57,8 +57,6 @@ export class CategoriaService {
   }
 
   async delete(id: number): Promise<DeleteResult> {
-    await this.findByID(id);
-
     return await this.categoriaRepository.delete(id);
   }
 }
