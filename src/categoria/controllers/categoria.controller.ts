@@ -13,7 +13,9 @@ import {
 import { CategoriaService } from '../services/categoria.service';
 import { Categoria } from '../entities/categoria.entity';
 import { DeleteResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Categorias')
 @Controller('/categorias')
 export class CategoriaController {
   constructor(private readonly categoriaService: CategoriaService) {}
